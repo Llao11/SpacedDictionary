@@ -2,14 +2,47 @@ package org.example;
 
 import java.io.IOException;
 import java.nio.file.*;
-import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 public class Library {
-    static String dictsListPath = "src/main/resources/DictsList.txt";
-    static String dictsPath = "src/main/resources/Dictionaries";
 
-    //Files.write(Paths.get(dictsListPath), name.getBytes(), StandardOpenOption.APPEND);
+
+    /**
+     * Create databese
+     */
+    public void createDB() {
+        String dbPath = "src/main/resources/SQLite/database.db"; // Update with the correct path
+
+        try {
+            // Load the SQLite JDBC driver
+            Class.forName("org.sqlite.JDBC");
+
+            // Establish a connection to the database
+            Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+
+            // Create a table (example: employees)
+            Statement stmt = conn.createStatement();
+            String createTableSQL = "CREATE TABLE IF NOT EXISTS employees ("
+                    + "id INTEGER PRIMARY KEY,"
+                    + "first_name TEXT NOT NULL,"
+                    + "last_name TEXT NOT NULL,"
+                    + "job_title TEXT)";
+            stmt.execute(createTableSQL);
+
+            System.out.println("Database created successfully!");
+
+            conn.close();
+
+        } catch (ClassNotFoundException | SQLException e) {
+            System.err.println("Error creating database: " + e.getMessage());
+        }
+    }
+
+
 
     /**
      *
@@ -17,44 +50,20 @@ public class Library {
      * @param name - name of a new dictionary
      */
     public void newDict(String name) {
-        try {
-            if (Files.exists(Paths.get(dictsPath+"/"+name+".txt"))) {
-                System.out.println("The dictionary with this name already exists");
-            }else{
-                Files.createFile(Paths.get(dictsPath+"/"+name+".txt"));
-                System.out.println("The dictionary: " + name + " created");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
     /**
      * Returns list of all dictionaries names
      */
     public List<String> getDicts(){
-        Path dir = Paths.get(dictsPath);
-        ArrayList<String> dictList = new ArrayList<>();
-
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir, "*.txt")) {
-            for (Path entry : stream) {
-                dictList.add(entry.getFileName().toString());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return dictList;
+        return null;
     }
 
     /**
      * Print all dictionaries
      */
     public void printDicts(){
-        if (getDicts().isEmpty()){
-            System.out.println("There is no dictionaries");
-        }else {
-            getDicts().forEach(System.out::println);
-        }
     }
 
     /**
@@ -62,12 +71,6 @@ public class Library {
      * @return
      */
     public boolean isEmpty(){
-       try {
-            List<String> allLines = Files.readAllLines(Paths.get(dictsListPath));
-           return allLines.isEmpty();
-        } catch (IOException e) {
-           e.printStackTrace();
-       }
-       return true;
+        return false;
     }
 }
