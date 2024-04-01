@@ -1,0 +1,24 @@
+Install sqlite3
+
+bash: sqlite3
+
+Commands:
+
+.help
+.open db 	- create new database with name db
+.databases 	- show current database
+create table TableName(id int, name text);
+sqlite> insert into tbl1 values('hello!',10);
+sqlite> insert into tbl1 values('goodbye', 20);
+sqlite> select * from tbl1;
+
+sqlite> CREATE TABLE tbl2 (
+   ...>   f1 varchar(30) primary key,
+   ...>   f2 text,
+   ...>   f3 real
+   ...> );
+sqlite>
+
+
+list tables of the database with query:
+	SELECT name FROM sqlite_master WHERE type='table'"
