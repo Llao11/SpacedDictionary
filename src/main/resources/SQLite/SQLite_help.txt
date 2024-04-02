@@ -21,4 +21,4 @@ sqlite>
 
 
 list tables of the database with query:
-	SELECT name FROM sqlite_master WHERE type='table'"
+	SELECT name FROM sqlite_master WHERE type='table'
