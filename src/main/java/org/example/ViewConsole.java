@@ -5,8 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class View {
-    private Controller controller;
+public class ViewConsole {
     private MainWindow mainWindow;
     private final String textMenu1 = "Choose the action";
     private final String textChooseAction = "Please enter number: ";
@@ -15,7 +14,7 @@ public class View {
     /**
      * Constructor DictView
      */
-    public View(){
+    public ViewConsole(){
         mainWindow = new MainWindow();
     }
 

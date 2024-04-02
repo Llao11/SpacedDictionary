@@ -6,7 +6,7 @@ public class Main {
         Controller controller = new Controller();
         int result=1;
         while (result !=0) {
-            result =controller.mainCicle();
+            result =controller.mainCycle();
         }
     }
 }

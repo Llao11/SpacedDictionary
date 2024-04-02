@@ -15,7 +15,7 @@ public class Library {
 
     /**
      * returns words from specific dictionary
-     * @param dictionaryName
+     * @param dictionaryName name of the dictionary
      */
     public ArrayList<Card> getDictionary(String dictionaryName) {
         ArrayList<Card> cards = new ArrayList<>();
@@ -125,13 +125,5 @@ public class Library {
         }else {
             getDictionaries().forEach(System.out::println);
         }
-    }
-
-    /**
-     *  Checks if there are dictionaries
-     * @return
-     */
-    public boolean isEmpty(){
-        return false;
     }
 }

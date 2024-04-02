@@ -2,15 +2,15 @@ package org.example;
 
 public class Controller {
 
-    private View view;
+    private ViewConsole view;
     private Library library;
 
     public Controller() {
-        view = new View();
+        view = new ViewConsole();
         library = new Library();
     }
 
-    public int mainCicle(){
+    public int mainCycle(){
         view.printIntro();
         int action = view.mainMenu();
         if (action == 5){        // Exit
