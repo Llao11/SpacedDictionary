@@ -4,9 +4,11 @@ public class Main {
     public static void main(String[] args) {
 
         Controller controller = new Controller();
+        controller.startGUI();
         int result=1;
         while (result !=0) {
-            result =controller.mainCycle();
+            result =controller.mainConsoleCycle();
+
         }
     }
 }

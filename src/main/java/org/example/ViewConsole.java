@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class ViewConsole {
-    private MainWindow mainWindow;
     private final String textMenu1 = "Choose the action";
     private final String textChooseAction = "Please enter number: ";
     private final String textInputDictionary = "Please enter dictionary name: ";
@@ -15,7 +14,6 @@ public class ViewConsole {
      * Constructor DictView
      */
     public ViewConsole(){
-        mainWindow = new MainWindow();
     }
 
     /**

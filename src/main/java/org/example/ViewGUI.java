@@ -1,128 +1,88 @@
 package org.example;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
-public class ViewGUI {
-    private MainWindow mainWindow;
-    private final String textMenu1 = "Choose the action";
-    private final String textChooseAction = "Please enter number: ";
-    private final String textInputDictionary = "Please enter dictionary name: ";
+class ViewGUI extends JFrame implements ActionListener {
+    private Controller controller;
+    private JPanel panelDictionaries;
 
-    /**
-     * Constructor DictView
-     */
-    public ViewGUI(){
-        mainWindow = new MainWindow();
+    private JTextField textFieldNewDictionary;
+
+    public ViewGUI(Controller controller){
+        this.controller = controller;
     }
+    public void mainWindow(){
+        this.setTitle("SpacedDict");
+        this.setSize(800,600);
+        this.setLayout(null);
 
-    /**
-     *  Create main menu
-     */
-    public int mainMenu(){
-        ArrayList<String> linesMenu = new ArrayList<>();
-        linesMenu.add(0,"New dictionary");
-        linesMenu.add(1,"Edit dictionary");
-        linesMenu.add(2,"Show all dictionaries");
-        linesMenu.add(3,"Repeat");
-        linesMenu.add(4,"Exit");
-        int i = inputMenu(textMenu1,linesMenu);
-        System.out.println("You entered: "+i);
-        return i;
-    }
+        int deltaX = 50;
+        addControls("New dictionary",10,10);
+        addControls("Edit dictionary",10,10+deltaX);
+        addControls("Show all dictionaries",10,10+2*deltaX);
+        addControls("Repeat",10,10+3*deltaX);
 
-    /**
-     *  Create edit dictionary menu
-     */
-    public int editDictionaryMenu(){
-        ArrayList<String> linesMenu = new ArrayList<>();
-        linesMenu.add(0,"Add card");
-        linesMenu.add(1,"Remove card");
-        linesMenu.add(2,"Rename dictionary");
-        linesMenu.add(3,"Remove dictionary");
-        linesMenu.add(4,"Back");
-        int i = inputMenu(textMenu1,linesMenu);
-        System.out.println("You entered: "+i);
-        return i;
-    }
+        panelDictionaries = new JPanel();
+        panelDictionaries.setBackground(Color.gray);
+        panelDictionaries.setSize(100,100);
+        panelDictionaries.setBounds(new Rectangle(250,10,400,400));
+        this.add(panelDictionaries);
 
-    /**
-     * Print intro text
-     */
-    public void printIntro(){
-        System.out.println("SpaceDict start");
-    }
-
-    /**
-     * Print goodbye text
-     */
-    public void printWrongInput(){
-        System.out.println("Wrong input!");
-    }
-
-    /**
-     * Print goodbye text
-     */
-    public void printOutro(){
-        System.out.println("Thank you for using SpaceDict and goodbye!");
-    }
-
-    /**
-     * Main menu
-     * @param text - First line text
-     * @param lines - list of menu elements
-     * @return - chosen element number
-     */
-    public int inputMenu(String text, ArrayList<String> lines){
-        System.out.println(text);
-        int i=0;
-        for (String item:lines){
-            i++;
-            System.out.println("\t"+i+". "+item);
+        // Code to close the application after closing window by clicking X
+        this.addWindowListener(new WindowAdapter()
+        {public void windowClosing(WindowEvent e)
+        {
+            dispose();
+            System.exit(0);
         }
-        System.out.print(textChooseAction);
-        BufferedReader buffReader = new BufferedReader(new InputStreamReader(System.in));
-        try {
-            int action = Integer.parseInt(buffReader.readLine());
-            return  action;
-        } catch (IOException e) {
-            System.out.println("Wrong input");
-            throw new RuntimeException(e);
+        });
+        this.setVisible(true);
+    }
+
+    /**
+     * Add button
+     */
+    private void addControls(String buttonText, int x, int y){
+        JButton buttonNew=new JButton(buttonText);
+        buttonNew.setBounds(x,y,200, 30);
+        this.add(buttonNew);
+        buttonNew.addActionListener(this);
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+        String s = actionEvent.getActionCommand();
+        if (s.equals("New dictionary")) {
+            newDictionaryWindow();
+            System.out.println("\n Create panel");
+        } else if (s.equals("Submit")) {
+
+
+            // TODO Doesnt work - rewrite!
+            System.out.println("Button pressed");
+            String newDictionaryName = textFieldNewDictionary.getText();
+            controller.newDictionary(newDictionaryName);
         }
     }
 
-
-    /**
-     * Input dictionary name from console
-     * @return dictionary name
-     */
-    public String enterDictionary(){
-        System.out.print(textInputDictionary);
-        BufferedReader buffReader = new BufferedReader(new InputStreamReader(System.in));
-        try {
-            return  buffReader.readLine();
-        } catch (IOException e) {
-            System.out.println("Wrong input");
-            throw new RuntimeException(e);
-        }
+    private void newDictionaryWindow(){
+        JFrame newDictionaryFrame = new JFrame(){};
+        newDictionaryFrame.setTitle("New Dictionary");
+        JButton button = new JButton("Submit");
+        JLabel label = new JLabel("Enter dictionary name:");
+        textFieldNewDictionary = new JTextField(16);
+        JPanel p = new JPanel();
+        p.add(label);
+        p.add(textFieldNewDictionary);
+        p.add(button);
+        newDictionaryFrame.add(p);
+        newDictionaryFrame.setSize(300,100);
+        newDictionaryFrame.setVisible(true);
     }
-
-
-    /**
-     * Input word from console
-     * @return dictionary name
-     */
-    public String enterWord(String text){
-        System.out.print(text);
-        BufferedReader buffReader = new BufferedReader(new InputStreamReader(System.in));
-        try {
-            return  buffReader.readLine();
-        } catch (IOException e) {
-            System.out.println("Wrong input");
-            throw new RuntimeException(e);
-        }
-    }
-
 }
