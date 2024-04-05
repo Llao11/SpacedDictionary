@@ -1,4 +1,4 @@
-package org.example;
+package org.PoC;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,16 +7,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-class ViewGUI extends JFrame implements ActionListener {
+class MainWindow extends JFrame implements ActionListener {
     private Controller controller;
     private JPanel panelDictionaries;
 
     private JTextField textFieldNewDictionary;
 
-    public ViewGUI(Controller controller){
+    public MainWindow(Controller controller){
         this.controller = controller;
     }
-    public void mainWindow(){
+    public void createMainWindow(){
         this.setTitle("SpacedDict");
         this.setSize(800,600);
         this.setLayout(null);
@@ -59,30 +59,10 @@ class ViewGUI extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent actionEvent) {
         String s = actionEvent.getActionCommand();
         if (s.equals("New dictionary")) {
-            newDictionaryWindow();
-            System.out.println("\n Create panel");
+            controller.newDictionaryWindow();
         } else if (s.equals("Submit")) {
 
-
-            // TODO Doesnt work - rewrite!
-            System.out.println("Button pressed");
-            String newDictionaryName = textFieldNewDictionary.getText();
-            controller.newDictionary(newDictionaryName);
         }
     }
 
-    private void newDictionaryWindow(){
-        JFrame newDictionaryFrame = new JFrame(){};
-        newDictionaryFrame.setTitle("New Dictionary");
-        JButton button = new JButton("Submit");
-        JLabel label = new JLabel("Enter dictionary name:");
-        textFieldNewDictionary = new JTextField(16);
-        JPanel p = new JPanel();
-        p.add(label);
-        p.add(textFieldNewDictionary);
-        p.add(button);
-        newDictionaryFrame.add(p);
-        newDictionaryFrame.setSize(300,100);
-        newDictionaryFrame.setVisible(true);
-    }
 }

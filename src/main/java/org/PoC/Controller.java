@@ -1,4 +1,4 @@
-package org.example;
+package org.PoC;
 
 public class Controller {
 
@@ -16,16 +16,30 @@ public class Controller {
      * Start new GUI JFrame as main window
      */
     public void startGUI(){
-        viewGUI.mainWindow();
+        viewGUI.openMainWindow();
     }
 
     /**
      *
      */
 
+    public void newDictionaryWindow(){
+        NewDictionaryWindow newDictionaryWindow = new NewDictionaryWindow(this);
+        newDictionaryWindow.createNewDictionaryWindow();
+        System.out.println("\n Create panel new Dictionary");
+    }
+
     public void newDictionary(String dictionaryName){
         library.newDictionary(dictionaryName);
     }
+
+
+
+
+
+
+
+
 
 
     /**
