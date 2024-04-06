@@ -1,18 +1,16 @@
 package org.PoC;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 class ViewGUI {
-    private Controller controller;
-    private JPanel panelDictionaries;
-
-    private JTextField textFieldNewDictionary;
+    private final Controller controller;
 
     public ViewGUI(Controller controller){
         this.controller = controller;
     }
-    public void openMainWindow(){
+    public void openMainWindow(ArrayList<String> dictionaries){
         MainWindow mainWindow = new MainWindow(controller);
-        mainWindow.createMainWindow();
+        mainWindow.createMainWindow(dictionaries);
     }
 }

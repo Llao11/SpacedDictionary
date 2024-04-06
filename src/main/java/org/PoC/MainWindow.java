@@ -1,39 +1,30 @@
 package org.PoC;
 
+import javax.imageio.ImageTypeSpecifier;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 class MainWindow extends JFrame implements ActionListener {
-    private Controller controller;
-    private JPanel panelDictionaries;
+    private final Controller controller;
+    private JPanel rightPanel;
+    private JPanel dictionaryPanel;
 
-    private JTextField textFieldNewDictionary;
+    private final String iconPathDictionary = "src/main/resources/img/book_icon.jpeg";
 
     public MainWindow(Controller controller){
         this.controller = controller;
     }
-    public void createMainWindow(){
+    public void createMainWindow(ArrayList<String> dictionaries){
         this.setTitle("SpacedDict");
         this.setSize(800,600);
+
         this.setLayout(null);
-
-        int deltaX = 50;
-        addControls("New dictionary",10,10);
-        addControls("Edit dictionary",10,10+deltaX);
-        addControls("Show all dictionaries",10,10+2*deltaX);
-        addControls("Repeat",10,10+3*deltaX);
-
-        panelDictionaries = new JPanel();
-        panelDictionaries.setBackground(Color.gray);
-        panelDictionaries.setSize(100,100);
-        panelDictionaries.setBounds(new Rectangle(250,10,400,400));
-        this.add(panelDictionaries);
-
-        // Code to close the application after closing window by clicking X
         this.addWindowListener(new WindowAdapter()
         {public void windowClosing(WindowEvent e)
         {
@@ -41,17 +32,66 @@ class MainWindow extends JFrame implements ActionListener {
             System.exit(0);
         }
         });
+
+        int deltaX = 50;
+        showControls("New dictionary",10,10);
+        showControls("Edit dictionary",10,10+deltaX);
+        showControls("Show all dictionaries",10,10+2*deltaX);
+        showControls("Repeat",10,10+3*deltaX);
+
+        rightPanel = new JPanel();
+        showDictionaries(dictionaries);
+
+        this.add(rightPanel);
+
         this.setVisible(true);
     }
 
     /**
-     * Add button
+     * Add control buttons to the left
      */
-    private void addControls(String buttonText, int x, int y){
+    private void showControls(String buttonText, int x, int y){
         JButton buttonNew=new JButton(buttonText);
         buttonNew.setBounds(x,y,200, 30);
         this.add(buttonNew);
         buttonNew.addActionListener(this);
+    }
+
+    /**
+     * Add buttons with Dictionaries to the right
+     */
+    private void showDictionaries(ArrayList<String> dictionaries){
+        rightPanel.setBackground(Color.gray);
+        rightPanel.setSize(100,100);
+        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+        rightPanel.setBounds(new Rectangle(250,10,400,300));
+        dictionaryPanel = new JPanel();
+        dictionaryPanel.setBackground(Color.WHITE);
+        dictionaryPanel.setLayout(new BoxLayout(dictionaryPanel, BoxLayout.Y_AXIS));
+
+        int y = 10;
+        for (String dictionary : dictionaries){
+            dictionaryPanel.add(Box.createVerticalStrut(10));
+            JButton buttonNew=new JButton(dictionary);
+            buttonNew.setSize(new Dimension(20,200));
+
+            // set icon to the button and rescale it
+            ImageIcon originalIcon = new ImageIcon(iconPathDictionary);
+            Image originalImage = originalIcon.getImage();
+            int newWidth = 30;
+            int newHeight = 30;
+            Image scaledImage = originalImage.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+            ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+            buttonNew.setIcon(scaledIcon);
+            buttonNew.setAlignmentX(Component.CENTER_ALIGNMENT);
+            buttonNew.setPreferredSize(new Dimension(300, 70));
+            dictionaryPanel.add(buttonNew);
+            buttonNew.addActionListener(this);
+        }
+
+        JScrollPane scrollPane = new JScrollPane(dictionaryPanel);
+        rightPanel.add(scrollPane);
     }
 
 

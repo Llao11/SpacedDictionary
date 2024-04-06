@@ -62,7 +62,7 @@ public class Library {
     /**
      * Returns list of all dictionaries names
      */
-    public List<String> getDictionaries(){
+    public ArrayList<String> getDictionaries(){
         ArrayList<String> dictionaries = new ArrayList<>();
         try {
             Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);

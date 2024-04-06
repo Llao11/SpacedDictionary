@@ -1,5 +1,7 @@
 package org.PoC;
 
+import java.util.ArrayList;
+
 public class Controller {
 
     private final ViewConsole viewConsole;
@@ -16,7 +18,8 @@ public class Controller {
      * Start new GUI JFrame as main window
      */
     public void startGUI(){
-        viewGUI.openMainWindow();
+        ArrayList<String> dictionaries =library.getDictionaries();
+        viewGUI.openMainWindow(dictionaries);
     }
 
     /**
@@ -26,7 +29,6 @@ public class Controller {
     public void newDictionaryWindow(){
         NewDictionaryWindow newDictionaryWindow = new NewDictionaryWindow(this);
         newDictionaryWindow.createNewDictionaryWindow();
-        System.out.println("\n Create panel new Dictionary");
     }
 
     public void newDictionary(String dictionaryName){
