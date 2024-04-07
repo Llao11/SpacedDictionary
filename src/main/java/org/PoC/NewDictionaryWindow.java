@@ -23,7 +23,6 @@ class NewDictionaryWindow extends JFrame implements ActionListener {
         String s = actionEvent.getActionCommand();
         if (s.equals("Submit")) {
             String newDictionaryName = textFieldNewDictionary.getText();
-            System.out.println("Button pressed: "+newDictionaryName);
             controller.newDictionary(newDictionaryName);
             this.setVisible(false);
             this.dispose();

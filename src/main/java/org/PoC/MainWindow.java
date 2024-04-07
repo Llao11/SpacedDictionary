@@ -13,6 +13,7 @@ import java.util.ArrayList;
 class MainWindow extends JFrame implements ActionListener {
     private final Controller controller;
     private JPanel rightPanel;
+    private JPanel leftPanel;
     private JPanel dictionaryPanel;
 
     private final String iconPathDictionary = "src/main/resources/img/book_icon.jpeg";
@@ -20,9 +21,14 @@ class MainWindow extends JFrame implements ActionListener {
     public MainWindow(Controller controller){
         this.controller = controller;
     }
-    public void createMainWindow(ArrayList<String> dictionaries){
+
+    /**
+     *  Method to create a new window with control panel and showing existing dictionaries
+     * @param dictionaries - ArrayList<String> with dictionary names
+     */
+    public void createMainWindow(ArrayList<String> dictionaries, int width, int height){
         this.setTitle("SpacedDict");
-        this.setSize(800,600);
+        this.setSize(width,height);
 
         this.setLayout(null);
         this.addWindowListener(new WindowAdapter()
@@ -33,38 +39,41 @@ class MainWindow extends JFrame implements ActionListener {
         }
         });
 
-        int deltaX = 50;
-        showControls("New dictionary",10,10);
-        showControls("Edit dictionary",10,10+deltaX);
-        showControls("Show all dictionaries",10,10+2*deltaX);
-        showControls("Repeat",10,10+3*deltaX);
-
-        rightPanel = new JPanel();
+        showControls();
         showDictionaries(dictionaries);
-
-        this.add(rightPanel);
-
         this.setVisible(true);
     }
 
     /**
      * Add control buttons to the left
      */
-    private void showControls(String buttonText, int x, int y){
+    private void addButton(String buttonText){
         JButton buttonNew=new JButton(buttonText);
-        buttonNew.setBounds(x,y,200, 30);
-        this.add(buttonNew);
+        leftPanel.add(buttonNew);
         buttonNew.addActionListener(this);
+    }
+    /**
+     * Add control buttons to the left
+     */
+    private void showControls(){
+        leftPanel = new JPanel();
+        leftPanel.setBounds(new Rectangle(20,10,200,400));
+        leftPanel.setLayout(new GridLayout(0,1,10,10));
+        addButton("New dictionary");
+        addButton("Edit dictionary");
+        addButton("Show all dictionaries");
+        addButton("Repeat");
+        this.add(leftPanel);
     }
 
     /**
      * Add buttons with Dictionaries to the right
      */
     private void showDictionaries(ArrayList<String> dictionaries){
+        rightPanel = new JPanel();
         rightPanel.setBackground(Color.gray);
-        rightPanel.setSize(100,100);
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-        rightPanel.setBounds(new Rectangle(250,10,600,400));
+            rightPanel.setBounds(new Rectangle(240,10,550,500));
         dictionaryPanel = new JPanel();
         dictionaryPanel.setBackground(Color.WHITE);
         dictionaryPanel.setLayout(new GridLayout(0,2,10,10));
@@ -81,6 +90,7 @@ class MainWindow extends JFrame implements ActionListener {
 
         JScrollPane scrollPane = new JScrollPane(dictionaryPanel);
         rightPanel.add(scrollPane);
+        this.add(rightPanel);
     }
 
 

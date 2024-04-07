@@ -37,10 +37,9 @@ public class Controller {
      */
     public void newDictionary(String dictionaryName){
         library.newDictionary(dictionaryName);
-        // TODO add logic to refresh the main window
+        ArrayList<String> dictionaries =library.getDictionaries();
+        viewGUI.refreshMainWindow(dictionaries);
     }
-
-
 
 
 
