@@ -17,23 +17,30 @@ public class Controller {
     /**
      * Start new GUI JFrame as main window
      */
-    public void startGUI(){
+    public void openMainWindow(){
         ArrayList<String> dictionaries =library.getDictionaries();
         viewGUI.openMainWindow(dictionaries);
     }
 
+
     /**
-     *
+     * creates new window with request for a new dictionary name
      */
 
     public void newDictionaryWindow(){
-        NewDictionaryWindow newDictionaryWindow = new NewDictionaryWindow(this);
-        newDictionaryWindow.createNewDictionaryWindow();
+        viewGUI.newDictionaryWindow();
     }
 
+    /**
+     * creates new table in DB and refreshes the main window
+     * @param dictionaryName String name of the new dictionary
+     */
     public void newDictionary(String dictionaryName){
         library.newDictionary(dictionaryName);
+        // TODO add logic to refresh the main window
     }
+
+
 
 
 

@@ -64,28 +64,17 @@ class MainWindow extends JFrame implements ActionListener {
         rightPanel.setBackground(Color.gray);
         rightPanel.setSize(100,100);
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-        rightPanel.setBounds(new Rectangle(250,10,400,300));
+        rightPanel.setBounds(new Rectangle(250,10,600,400));
         dictionaryPanel = new JPanel();
         dictionaryPanel.setBackground(Color.WHITE);
-        dictionaryPanel.setLayout(new BoxLayout(dictionaryPanel, BoxLayout.Y_AXIS));
+        dictionaryPanel.setLayout(new GridLayout(0,2,10,10));
 
-        int y = 10;
         for (String dictionary : dictionaries){
-            dictionaryPanel.add(Box.createVerticalStrut(10));
             JButton buttonNew=new JButton(dictionary);
-            buttonNew.setSize(new Dimension(20,200));
-
-            // set icon to the button and rescale it
-            ImageIcon originalIcon = new ImageIcon(iconPathDictionary);
-            Image originalImage = originalIcon.getImage();
-            int newWidth = 30;
-            int newHeight = 30;
-            Image scaledImage = originalImage.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
-            ImageIcon scaledIcon = new ImageIcon(scaledImage);
-
-            buttonNew.setIcon(scaledIcon);
-            buttonNew.setAlignmentX(Component.CENTER_ALIGNMENT);
-            buttonNew.setPreferredSize(new Dimension(300, 70));
+            buttonNew.setPreferredSize(new Dimension(100, 50));
+            buttonNew.setHorizontalAlignment(SwingConstants.LEFT);
+            buttonNew.setIcon(iconManager(iconPathDictionary));
+            buttonNew.setIconTextGap(50);
             dictionaryPanel.add(buttonNew);
             buttonNew.addActionListener(this);
         }
@@ -100,9 +89,22 @@ class MainWindow extends JFrame implements ActionListener {
         String s = actionEvent.getActionCommand();
         if (s.equals("New dictionary")) {
             controller.newDictionaryWindow();
-        } else if (s.equals("Submit")) {
-
+        } else if (s.equals("assss")) {
         }
+    }
+
+    /**
+     * // TODO change the icon size in image file and remove this part
+     *   Set icon to the button and rescale it
+     * @return
+     */
+    private ImageIcon iconManager(String pathToImage){
+        ImageIcon originalIcon = new ImageIcon(pathToImage);
+        Image originalImage = originalIcon.getImage();
+        int newWidth = 40;
+        int newHeight = 40;
+        Image scaledImage = originalImage.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+        return new ImageIcon(scaledImage);
     }
 
 }
