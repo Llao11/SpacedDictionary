@@ -12,6 +12,7 @@ class MainWindow extends JFrame implements ActionListener {
     private JPanel leftPanel1;
     private JPanel leftPanel2;
     private JPanel dictionaryPanel;
+    private ArrayList<String> currentDictionariesList;
 
     private final String iconPathDictionary = "src/main/resources/img/book_icon.jpeg";
 
@@ -91,6 +92,7 @@ class MainWindow extends JFrame implements ActionListener {
      * Add buttons with Dictionaries to the right
      */
     private void showDictionaries(ArrayList<String> dictionaries){
+        currentDictionariesList = dictionaries;
         rightPanel = new JPanel();
         rightPanel.setBackground(Color.gray);
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
@@ -117,15 +119,20 @@ class MainWindow extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        String s = actionEvent.getActionCommand();
-        if (s.equals("New dictionary")) {
+        String string = actionEvent.getActionCommand();
+        if (string.equals("New dictionary")) {
             controller.newDictionaryWindow();
-        } else if (s.equals("Edit list")) {
+        } else if (string.equals("Edit list")) {
             controller.enterEditMode();
             System.out.println("Edit mode!");
-        } else if (s.equals("Back")) {
+        } else if (string.equals("Back")) {
             controller.exitEditMode();
             System.out.println("Exit edit mode!");
+        }else if (currentDictionariesList.contains(string) && !controller.isEditMode()){
+            System.out.println("Repeat dictionary: " + string);
+        }else if (currentDictionariesList.contains(string) && controller.isEditMode()){
+            System.out.println("Remove dictionary: " + string);
+            controller.removeDictionary(string);
         }
     }
 

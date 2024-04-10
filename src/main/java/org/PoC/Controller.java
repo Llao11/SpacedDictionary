@@ -7,11 +7,13 @@ public class Controller {
     private final ViewConsole viewConsole;
     private final ViewGUI viewGUI;
     private final Library library;
+    private boolean isEditMode;
 
     public Controller() {
         viewConsole = new ViewConsole();
         viewGUI = new ViewGUI(this);
         library = new Library();
+        isEditMode=true;
     }
 
     /**
@@ -37,18 +39,29 @@ public class Controller {
      */
     public void newDictionary(String dictionaryName){
         library.newDictionary(dictionaryName);
-        ArrayList<String> dictionaries =library.getDictionaries();
+        ArrayList<String> dictionaries = library.getDictionaries();
         viewGUI.refreshMainWindow(dictionaries);
     }
 
+    public void removeDictionary(String dictionaryName){
+        library.removeDictionary(dictionaryName);
+        ArrayList<String> dictionaries = library.getDictionaries();
+        viewGUI.refreshMainWindow(dictionaries);
+    }
+
+
     public void enterEditMode(){
+        isEditMode = true;
         viewGUI.enterEditMode();
     }
     public void exitEditMode(){
+        isEditMode = false;
         viewGUI.exitEditMode();
     }
 
-
+    public boolean isEditMode() {
+        return isEditMode;
+    }
 
 
 
@@ -82,7 +95,7 @@ public class Controller {
             } else if (action1 == 3) {       // Rename dictionary
 
             } else if (action1 == 4) {       // Remove dictionary
-                library.removeDictionariy(dictionaryName);
+                library.removeDictionary(dictionaryName);
             } else if (action1 == 5) {       // Back
 
             } else {
@@ -98,4 +111,5 @@ public class Controller {
         }
         return 1;           // repeat code
     }
+
 }

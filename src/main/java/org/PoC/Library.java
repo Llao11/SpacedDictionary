@@ -2,7 +2,6 @@ package org.PoC;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Library {
 
@@ -83,7 +82,7 @@ public class Library {
     /**
      * Returns list of all dictionaries names
      */
-    public void removeDictionariy(String tableName){
+    public void removeDictionary(String tableName){
         try {
             Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
             Statement statement = conn.createStatement();
