@@ -1,19 +1,16 @@
 package org.PoC;
 
-import javax.imageio.ImageTypeSpecifier;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 class MainWindow extends JFrame implements ActionListener {
     private final Controller controller;
     private JPanel rightPanel;
     private JPanel leftPanel;
+    private JPanel leftPanel1;
+    private JPanel leftPanel2;
     private JPanel dictionaryPanel;
 
     private final String iconPathDictionary = "src/main/resources/img/book_icon.jpeg";
@@ -39,31 +36,55 @@ class MainWindow extends JFrame implements ActionListener {
         }
         });
 
-        showControls();
+        leftPanel = new JPanel();
+        leftPanel.setLayout(new CardLayout());
+        showMainControlPanel();
         showDictionaries(dictionaries);
+        this.add(leftPanel);
         this.setVisible(true);
     }
 
     /**
      * Add control buttons to the left
      */
-    private void addButton(String buttonText){
+    private void addButton(String buttonText,JPanel panel){
         JButton buttonNew=new JButton(buttonText);
-        leftPanel.add(buttonNew);
+        panel.add(buttonNew);
         buttonNew.addActionListener(this);
     }
     /**
-     * Add control buttons to the left
+     * Add control buttons to the left panel 1
      */
-    private void showControls(){
-        leftPanel = new JPanel();
-        leftPanel.setBounds(new Rectangle(20,10,200,400));
-        leftPanel.setLayout(new GridLayout(0,1,10,10));
-        addButton("New dictionary");
-        addButton("Edit dictionary");
-        addButton("Show all dictionaries");
-        addButton("Repeat");
-        this.add(leftPanel);
+    public void showMainControlPanel(){
+        leftPanel.setVisible(false);
+        leftPanel.removeAll();
+        leftPanel.setBounds(new Rectangle(15,10,190,200));
+        leftPanel1 = new JPanel();
+        leftPanel1.setLayout(new GridLayout(0,1,10,10));
+        addButton("New dictionary",leftPanel1);
+        addButton("Edit list",leftPanel1);
+        addButton("Settings",leftPanel1);
+        addButton("Exit",leftPanel1);
+        leftPanel.add(leftPanel1);
+        leftPanel.setVisible(true);
+    }
+
+    /**
+     * Add control buttons to the left panel 2
+     */
+    public void showEditControlPanel(){
+        leftPanel.setVisible(false);
+        leftPanel.removeAll();
+        leftPanel.setBounds(new Rectangle(15,10,190,250));
+        leftPanel2 = new JPanel();
+        leftPanel2.setLayout(new GridLayout(0,1,10,10));
+        addButton("Add card",leftPanel2);
+        addButton("Edit card",leftPanel2);
+        addButton("Rename dictionary",leftPanel2);
+        addButton("Remove dictionary",leftPanel2);
+        addButton("Back",leftPanel2);
+        leftPanel.add(leftPanel2);
+        leftPanel.setVisible(true);
     }
 
     /**
@@ -73,7 +94,7 @@ class MainWindow extends JFrame implements ActionListener {
         rightPanel = new JPanel();
         rightPanel.setBackground(Color.gray);
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-            rightPanel.setBounds(new Rectangle(240,10,550,500));
+        rightPanel.setBounds(new Rectangle(240,10,550,500));
         dictionaryPanel = new JPanel();
         dictionaryPanel.setBackground(Color.WHITE);
         dictionaryPanel.setLayout(new GridLayout(0,2,10,10));
@@ -99,7 +120,12 @@ class MainWindow extends JFrame implements ActionListener {
         String s = actionEvent.getActionCommand();
         if (s.equals("New dictionary")) {
             controller.newDictionaryWindow();
-        } else if (s.equals("assss")) {
+        } else if (s.equals("Edit list")) {
+            controller.enterEditMode();
+            System.out.println("Edit mode!");
+        } else if (s.equals("Back")) {
+            controller.exitEditMode();
+            System.out.println("Exit edit mode!");
         }
     }
 

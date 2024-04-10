@@ -41,6 +41,13 @@ public class Controller {
         viewGUI.refreshMainWindow(dictionaries);
     }
 
+    public void enterEditMode(){
+        viewGUI.enterEditMode();
+    }
+    public void exitEditMode(){
+        viewGUI.exitEditMode();
+    }
+
 
 
 

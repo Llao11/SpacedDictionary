@@ -36,6 +36,14 @@ class ViewGUI {
         mainWindow.createMainWindow(dictionaries,width,height );
     }
 
+    public void enterEditMode(){
+        mainWindow.showEditControlPanel();
+    }
+
+    public void exitEditMode(){
+        mainWindow.showMainControlPanel();
+    }
+
     /**
      * creates new window with request for a new dictionary name
      */
