@@ -26,14 +26,10 @@ class ViewGUI {
     /**
      *
      * @param dictionaries
+     *
      */
     public void refreshMainWindow(ArrayList<String> dictionaries){
-        mainWindow.setVisible(false);
-        int width = mainWindow.getWidth();
-        int height =  mainWindow.getHeight();
-        mainWindow.dispose();
-        mainWindow = new MainWindow(controller);
-        mainWindow.createMainWindow(dictionaries,width,height );
+        mainWindow.showDictionaries(dictionaries);
     }
 
     public void enterEditMode(){

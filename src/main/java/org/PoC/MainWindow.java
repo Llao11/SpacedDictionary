@@ -13,6 +13,7 @@ class MainWindow extends JFrame implements ActionListener {
     private JPanel leftPanel2;
     private JPanel dictionaryPanel;
     private ArrayList<String> currentDictionariesList;
+    private ArrayList<String> editDictionariesList;
 
     private final String iconPathDictionary = "src/main/resources/img/book_icon.jpeg";
 
@@ -27,7 +28,7 @@ class MainWindow extends JFrame implements ActionListener {
     public void createMainWindow(ArrayList<String> dictionaries, int width, int height){
         this.setTitle("SpacedDict");
         this.setSize(width,height);
-
+        editDictionariesList = new ArrayList<>();
         this.setLayout(null);
         this.addWindowListener(new WindowAdapter()
         {public void windowClosing(WindowEvent e)
@@ -48,10 +49,11 @@ class MainWindow extends JFrame implements ActionListener {
     /**
      * Add control buttons to the left
      */
-    private void addButton(String buttonText,JPanel panel){
+    private JButton addButton(String buttonText,JPanel panel){
         JButton buttonNew=new JButton(buttonText);
         panel.add(buttonNew);
         buttonNew.addActionListener(this);
+        return buttonNew;
     }
     /**
      * Add control buttons to the left panel 1
@@ -91,9 +93,14 @@ class MainWindow extends JFrame implements ActionListener {
     /**
      * Add buttons with Dictionaries to the right
      */
-    private void showDictionaries(ArrayList<String> dictionaries){
+    public void showDictionaries(ArrayList<String> dictionaries){
         currentDictionariesList = dictionaries;
-        rightPanel = new JPanel();
+        if (rightPanel==null) {
+            rightPanel = new JPanel();
+        }else{
+            rightPanel.setVisible(false);
+            rightPanel.removeAll();
+        }
         rightPanel.setBackground(Color.gray);
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         rightPanel.setBounds(new Rectangle(240,10,550,500));
@@ -104,6 +111,9 @@ class MainWindow extends JFrame implements ActionListener {
         for (String dictionary : dictionaries){
             JButton buttonNew=new JButton(dictionary);
             buttonNew.setPreferredSize(new Dimension(100, 50));
+            buttonNew.setMaximumSize(new Dimension(100, 50));
+            buttonNew.setMinimumSize(new Dimension(100, 50));
+            //buttonNew.setBounds(new Rectangle(100, 50));
             buttonNew.setHorizontalAlignment(SwingConstants.LEFT);
             buttonNew.setIcon(iconManager(iconPathDictionary));
             buttonNew.setIconTextGap(50);
@@ -114,25 +124,39 @@ class MainWindow extends JFrame implements ActionListener {
         JScrollPane scrollPane = new JScrollPane(dictionaryPanel);
         rightPanel.add(scrollPane);
         this.add(rightPanel);
+        rightPanel.setVisible(true);
     }
 
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         String string = actionEvent.getActionCommand();
-        if (string.equals("New dictionary")) {
-            controller.newDictionaryWindow();
-        } else if (string.equals("Edit list")) {
-            controller.enterEditMode();
-            System.out.println("Edit mode!");
-        } else if (string.equals("Back")) {
-            controller.exitEditMode();
-            System.out.println("Exit edit mode!");
-        }else if (currentDictionariesList.contains(string) && !controller.isEditMode()){
-            System.out.println("Repeat dictionary: " + string);
-        }else if (currentDictionariesList.contains(string) && controller.isEditMode()){
-            System.out.println("Remove dictionary: " + string);
-            controller.removeDictionary(string);
+        if (controller.isEditMode()){                   // EDIT CONTROL PANEL
+            if (string.equals("Back")) {
+                editDictionariesList.clear();
+                controller.exitEditMode();
+                System.out.println("Exit edit mode!");
+            }else if (currentDictionariesList.contains(string)) {
+                chooseButton(actionEvent);
+            }else if (string.equals("Remove dictionary")) {
+                for (String dictionary : editDictionariesList) {
+                    controller.removeDictionary(dictionary);
+                }
+                editDictionariesList.clear();
+                showEditControlPanel();
+            }
+        }else {                                         // MAIN CONTROL PANEL
+            if (string.equals("New dictionary")) {
+                controller.newDictionaryWindow();
+            } else if (string.equals("Edit list")) {
+                controller.enterEditMode();
+                System.out.println("Edit mode!");
+            } else if (currentDictionariesList.contains(string)) {
+                System.out.println("Repeat dictionary: " + string);
+            }else if (string.equals("Exit")) {
+                dispose();
+                System.exit(0);
+            }
         }
     }
 
@@ -150,4 +174,42 @@ class MainWindow extends JFrame implements ActionListener {
         return new ImageIcon(scaledImage);
     }
 
+    private void setInactiveButtons(){
+        leftPanel.setVisible(false);
+        leftPanel.removeAll();
+        leftPanel.setBounds(new Rectangle(15,10,190,250));
+        leftPanel2 = new JPanel();
+        leftPanel2.setLayout(new GridLayout(0,1,10,10));
+        JButton button1 = addButton("Add card",leftPanel2);
+        button1.setBackground(Color.WHITE);
+        button1.setForeground(Color.lightGray);
+        JButton button2 = addButton("Edit card",leftPanel2);
+        button2.setBackground(Color.WHITE);
+        button2.setForeground(Color.lightGray);
+        JButton button3 = addButton("Rename dictionary",leftPanel2);
+        button3.setBackground(Color.WHITE);
+        button3.setForeground(Color.lightGray);
+        addButton("Remove dictionary",leftPanel2);
+        addButton("Back",leftPanel2);
+        leftPanel.add(leftPanel2);
+        leftPanel.setVisible(true);
+    }
+
+    private void chooseButton(ActionEvent actionEvent){
+        String string = actionEvent.getActionCommand();
+        JButton buttonSource = (JButton) actionEvent.getSource();
+
+        if (editDictionariesList.contains(string)) {
+            buttonSource.setBackground(new JButton().getBackground());
+            editDictionariesList.remove(string);
+        }else{
+            buttonSource.setBackground(Color.CYAN);
+            editDictionariesList.add(string);
+        }
+        if (editDictionariesList.size() > 1) {
+            setInactiveButtons();
+        } else {
+            showEditControlPanel();
+        }
+    }
 }

@@ -13,7 +13,7 @@ public class Controller {
         viewConsole = new ViewConsole();
         viewGUI = new ViewGUI(this);
         library = new Library();
-        isEditMode=true;
+        isEditMode=false;
     }
 
     /**
