@@ -135,9 +135,13 @@ class MainWindow extends JFrame implements ActionListener {
             if (string.equals("Back")) {
                 editDictionariesList.clear();
                 controller.exitEditMode();
+                controller.refreshDictionary();
                 System.out.println("Exit edit mode!");
             }else if (currentDictionariesList.contains(string)) {
                 chooseButton(actionEvent);
+            }else if (string.equals("Add card") && editDictionariesList.size()==1) {
+                String dictionaryName = editDictionariesList.get(0);
+                controller.addCardWindow(dictionaryName);
             }else if (string.equals("Remove dictionary")) {
                 for (String dictionary : editDictionariesList) {
                     controller.removeDictionary(dictionary);
@@ -152,6 +156,7 @@ class MainWindow extends JFrame implements ActionListener {
                 controller.enterEditMode();
                 System.out.println("Edit mode!");
             } else if (currentDictionariesList.contains(string)) {
+                //controller.
                 System.out.println("Repeat dictionary: " + string);
             }else if (string.equals("Exit")) {
                 dispose();

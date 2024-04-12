@@ -27,7 +27,7 @@ public class Card {
     }
 
 
-    public List<String> getWords() {
+    public ArrayList<String> getWords() {
         ArrayList<String> words = new ArrayList<>();
         words.add(word1);
         words.add(word2);

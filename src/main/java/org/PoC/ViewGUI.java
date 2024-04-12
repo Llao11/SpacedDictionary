@@ -47,4 +47,11 @@ class ViewGUI {
         newDictionaryWindow = new NewDictionaryWindow(controller);
         newDictionaryWindow.createNewDictionaryWindow();
     }
+
+    /**
+     * creates new window with request for a new card to add
+     */
+    public void newCardWindow(String dictionaryName){
+        NewCardWindow newCardWindow = new NewCardWindow(controller,dictionaryName);
+    }
 }

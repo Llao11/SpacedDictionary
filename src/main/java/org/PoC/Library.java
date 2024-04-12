@@ -2,6 +2,7 @@ package org.PoC;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Library {
 
@@ -72,6 +73,12 @@ public class Library {
                 String tableName = resultSet.getString("name");
                 dictionaries.add(tableName);
             }
+            dictionaries.sort(new Comparator<String>() {
+                @Override
+                public int compare(String s, String t1) {
+                    return s.compareTo(t1);
+                }
+            });
             return dictionaries;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -107,7 +114,7 @@ public class Library {
             PreparedStatement statement = conn.prepareStatement(createTableSQL);
             System.out.println(createTableSQL);
             statement.executeUpdate();
-            System.out.println("Dictionary"+dictionaryName+" created successfully!");
+            System.out.println("Card added to the "+dictionaryName);
             conn.close();
         } catch (ClassNotFoundException | SQLException e) {
             System.err.println("Error creating table: " + e.getMessage());

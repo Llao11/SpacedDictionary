@@ -24,11 +24,18 @@ public class Controller {
         viewGUI.openMainWindow(dictionaries);
     }
 
+    /**
+     * Start new GUI JFrame as main window
+     */
+    public void repeatDictionary(String dictionary){
+        ArrayList<String> dictionaries =library.getDictionaries();
+        viewGUI.openMainWindow(dictionaries);
+    }
+
 
     /**
      * creates new window with request for a new dictionary name
      */
-
     public void newDictionaryWindow(){
         viewGUI.newDictionaryWindow();
     }
@@ -39,16 +46,26 @@ public class Controller {
      */
     public void newDictionary(String dictionaryName){
         library.newDictionary(dictionaryName);
-        ArrayList<String> dictionaries = library.getDictionaries();
-        viewGUI.refreshMainWindow(dictionaries);
+        refreshDictionary();
     }
 
     public void removeDictionary(String dictionaryName){
         library.removeDictionary(dictionaryName);
+        refreshDictionary();
+    }
+
+    public void refreshDictionary(){
         ArrayList<String> dictionaries = library.getDictionaries();
         viewGUI.refreshMainWindow(dictionaries);
     }
 
+    public void addCardWindow(String dictionaryName){
+        viewGUI.newCardWindow(dictionaryName);
+    }
+
+    public void addCard(String dictionaryName,String word1, String word2){
+        library.addCard(word1,word2,dictionaryName);
+    }
 
     public void enterEditMode(){
         isEditMode = true;
