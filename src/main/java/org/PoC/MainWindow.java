@@ -113,7 +113,6 @@ class MainWindow extends JFrame implements ActionListener {
             buttonNew.setPreferredSize(new Dimension(100, 50));
             buttonNew.setMaximumSize(new Dimension(100, 50));
             buttonNew.setMinimumSize(new Dimension(100, 50));
-            //buttonNew.setBounds(new Rectangle(100, 50));
             buttonNew.setHorizontalAlignment(SwingConstants.LEFT);
             buttonNew.setIcon(iconManager(iconPathDictionary));
             buttonNew.setIconTextGap(50);
@@ -156,8 +155,8 @@ class MainWindow extends JFrame implements ActionListener {
                 controller.enterEditMode();
                 System.out.println("Edit mode!");
             } else if (currentDictionariesList.contains(string)) {
-                //controller.
-                System.out.println("Repeat dictionary: " + string);
+                controller.repeatDictionary(string);
+                System.out.println("\nRepeat dictionary: " + string);
             }else if (string.equals("Exit")) {
                 dispose();
                 System.exit(0);

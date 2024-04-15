@@ -28,8 +28,8 @@ public class Controller {
      * Start new GUI JFrame as main window
      */
     public void repeatDictionary(String dictionary){
-        ArrayList<String> dictionaries =library.getDictionaries();
-        viewGUI.openMainWindow(dictionaries);
+        ArrayList<Card> cards = library.getDictionary(dictionary);
+
     }
 
 

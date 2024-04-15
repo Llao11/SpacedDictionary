@@ -29,7 +29,7 @@ public class Library {
                 String word1 = resultSet.getString("Word1");
                 String word2 = resultSet.getString("Word2");
                 System.out.println(word1 + " - " + word2);
-                cards.add(new Card());
+                cards.add(new Card(word1,word2));
             }
             return cards;
         } catch (SQLException e) {

@@ -26,35 +26,38 @@ class NewCardWindow extends JFrame implements ActionListener {
         JLabel label2 = new JLabel("Enter word 2:");
         textFieldWord2 = new JTextField(16);
         JPanel panel = new JPanel();
+
         GroupLayout layout = new GroupLayout(panel);
         panel.setLayout(layout);
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
-        layout.setHorizontalGroup(
-                layout.createSequentialGroup()
-                        .addComponent(label1)
-                        .addComponent(textFieldWord1)
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                .addComponent(label2)
-                                .addComponent(textFieldWord2))
-                        .addComponent(button)
-        );
-//        layout.setVerticalGroup(
-//                layout.createSequentialGroup()
-//                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-//                                .addComponent(c1)
-//                                .addComponent(c2)
-//                                .addComponent(c3))
-//                        .addComponent(c4)
-//        );
-        pack();
-//        panel.add(label1);
-//        panel.add(label2);
-//        panel.add(textFieldWord1);
-//        panel.add(textFieldWord2);
-//        panel.add(button);
+
+        // Create the horizontal group
+        GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
+        hGroup.addGroup(layout.createParallelGroup()
+                .addComponent(label1)
+                .addComponent(textFieldWord1));
+        hGroup.addGroup(layout.createParallelGroup()
+                .addComponent(label2)
+                .addComponent(textFieldWord2));
+        hGroup.addGroup(layout.createParallelGroup()
+                        .addComponent(button));
+        layout.setHorizontalGroup(hGroup);
+
+        // Create the vertical group
+        GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
+        vGroup.addGroup(layout.createParallelGroup()
+                .addComponent(label1)
+                .addComponent(label2));
+        vGroup.addGroup(layout.createParallelGroup()
+                .addComponent(textFieldWord1)
+                .addComponent(textFieldWord2)
+                .addComponent(button));
+        layout.setVerticalGroup(vGroup);
+
+        this.pack();
         this.add(panel);
-        this.setSize(300,100);
+        this.setSize(400,100);
         this.setVisible(true);
     }
 
