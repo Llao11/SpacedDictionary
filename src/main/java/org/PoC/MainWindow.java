@@ -65,7 +65,7 @@ class MainWindow extends JFrame implements ActionListener {
         leftPanel1 = new JPanel();
         leftPanel1.setLayout(new GridLayout(0,1,10,10));
         addButton("New dictionary",leftPanel1);
-        addButton("Edit list",leftPanel1);
+        addButton("Edit dictionary",leftPanel1);
         addButton("Settings",leftPanel1);
         addButton("Exit",leftPanel1);
         leftPanel.add(leftPanel1);
@@ -82,7 +82,7 @@ class MainWindow extends JFrame implements ActionListener {
         leftPanel2 = new JPanel();
         leftPanel2.setLayout(new GridLayout(0,1,10,10));
         addButton("Add card",leftPanel2);
-        addButton("Edit card",leftPanel2);
+        addButton("Edit cards",leftPanel2);
         addButton("Rename dictionary",leftPanel2);
         addButton("Remove dictionary",leftPanel2);
         addButton("Back",leftPanel2);
@@ -151,7 +151,7 @@ class MainWindow extends JFrame implements ActionListener {
         }else {                                         // MAIN CONTROL PANEL
             if (string.equals("New dictionary")) {
                 controller.newDictionaryWindow();
-            } else if (string.equals("Edit list")) {
+            } else if (string.equals("Edit dictionary")) {
                 controller.enterEditMode();
                 System.out.println("Edit mode!");
             } else if (currentDictionariesList.contains(string)) {
@@ -187,7 +187,7 @@ class MainWindow extends JFrame implements ActionListener {
         JButton button1 = addButton("Add card",leftPanel2);
         button1.setBackground(Color.WHITE);
         button1.setForeground(Color.lightGray);
-        JButton button2 = addButton("Edit card",leftPanel2);
+        JButton button2 = addButton("Edit cards",leftPanel2);
         button2.setBackground(Color.WHITE);
         button2.setForeground(Color.lightGray);
         JButton button3 = addButton("Rename dictionary",leftPanel2);
