@@ -28,7 +28,7 @@ public class Controller {
      * Start new GUI JFrame as main window
      */
     public void repeatDictionary(String dictionary){
-        ArrayList<Card> cards = library.getDictionary(dictionary);
+        ArrayList<Card> cards = library.getDictionaryCards(dictionary);
         if (cards.isEmpty()){
             viewGUI.informationWindow("The dictionary is empty");
         }else{
@@ -84,6 +84,10 @@ public class Controller {
         return isEditMode;
     }
 
+    public void updateCard(Card card,int remembered ){
+        //TODO: add logic to update values of the card based on remembered value: bad=1, middle=2, good=3
+    }
+
 
 
 
@@ -126,7 +130,7 @@ public class Controller {
             library.printDictionaries();
         } else if (action == 4) {       // Repeat
             String dictionaryName = viewConsole.enterDictionary();
-            library.getDictionary(dictionaryName);
+            library.getDictionaryCards(dictionaryName);
         } else {
             viewConsole.printWrongInput();
         }

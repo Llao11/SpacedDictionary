@@ -1,6 +1,8 @@
 package org.PoC;
 
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,21 +11,28 @@ public class Card {
 
     private String word1;
     private String word2;
-    private LocalTime lastRepeat;
+    private long lastRepeat; // number of minutes passed from LocalDateTime.MIN
     private int learnIndex; // index from 0 to 10
 
     public Card(){
         word1 ="";
         word2 ="";
-        lastRepeat = LocalTime.MIN;
+        lastRepeat = Duration.between(LocalDateTime.MIN,LocalDateTime.now()).toMinutes();
         learnIndex = 0;
     }
 
     public Card(String word1, String word2){
         this.word1 =word1;
         this.word2 =word2;
-        lastRepeat = LocalTime.MIN;
+        lastRepeat = Duration.between(LocalDateTime.MIN,LocalDateTime.now()).toMinutes();
         learnIndex = 0;
+    }
+
+    public Card(String word1, String word2,long lastRepeat, int learnIndex){
+        this.word1 =word1;
+        this.word2 =word2;
+        this.lastRepeat = lastRepeat;
+        this.learnIndex = learnIndex;
     }
 
 
@@ -39,11 +48,11 @@ public class Card {
         this.word2 = word2;
     }
 
-    public LocalTime getLastRepeat() {
+    public long getLastRepeat() {
         return lastRepeat;
     }
 
-    public void setLastRepeat(LocalTime lastRepeat) {
+    public void setLastRepeat(long lastRepeat) {
         this.lastRepeat = lastRepeat;
     }
 

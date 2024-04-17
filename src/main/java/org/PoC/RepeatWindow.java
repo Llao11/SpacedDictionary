@@ -94,8 +94,6 @@ class RepeatWindow extends JFrame implements ActionListener {
     }
 
 
-
-
     /**
      * Listner method that sends entered name to the controller
      * @param actionEvent - event variable
@@ -105,14 +103,21 @@ class RepeatWindow extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         String s = actionEvent.getActionCommand();
+        int remembered;
         switch (s) {
             case "Bad":
+                remembered = 1;
+                controller.updateCard(currentCard, remembered);
                 showCardAnswer(currentCard);
                 break;
             case "Middle":
+                remembered = 2;
+                controller.updateCard(currentCard, remembered);
                 showCardAnswer(currentCard);
                 break;
             case "Good":
+                remembered = 3;
+                controller.updateCard(currentCard, remembered);
                 repeatLogic();
                 break;
             case "Next":
@@ -120,6 +125,4 @@ class RepeatWindow extends JFrame implements ActionListener {
                 break;
         }
     }
-
-
 }

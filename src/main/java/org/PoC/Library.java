@@ -1,6 +1,8 @@
 package org.PoC;
 
 import java.sql.*;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -17,7 +19,7 @@ public class Library {
      * returns words from specific dictionary
      * @param dictionaryName name of the dictionary
      */
-    public ArrayList<Card> getDictionary(String dictionaryName) {
+    public ArrayList<Card> getDictionaryCards(String dictionaryName) {
         ArrayList<Card> cards = new ArrayList<>();
         try {
             Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
@@ -48,7 +50,10 @@ public class Library {
             Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
             String createTableSQL = "CREATE TABLE IF NOT EXISTS " + dictionaryName
                     + "(word1 TEXT NOT NULL,"
-                    + "word2 TEXT NOT NULL);";
+                    + "word2 TEXT NOT NULL,"
+                    +"lastRepeat INT NOT NULL,"
+                    +"learnIndex INT NOT NULL"
+                    +");";
             PreparedStatement statement = conn.prepareStatement(createTableSQL);
             System.out.println(createTableSQL);
             statement.executeUpdate();
@@ -110,7 +115,14 @@ public class Library {
         try {
             Class.forName("org.sqlite.JDBC");
             Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
-            String createTableSQL = "insert into " + dictionaryName +" values(' " + word1 + "' , ' " + word2 +"');";
+            long lastRepeat = Duration.between(LocalDateTime.MIN,LocalDateTime.now()).toMinutes();
+            int learnIndex = 0;
+            String createTableSQL = "insert into "
+                    + dictionaryName + " values(' "
+                    + word1 + "' , ' "
+                    + word2 + "' , ' "
+                    + lastRepeat + "' , ' "
+                    + learnIndex +"');";
             PreparedStatement statement = conn.prepareStatement(createTableSQL);
             System.out.println(createTableSQL);
             statement.executeUpdate();
