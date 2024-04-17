@@ -115,6 +115,7 @@ public class Library {
         try {
             Class.forName("org.sqlite.JDBC");
             Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+            // lastRepeat: number of minutes from minimum time to current time
             long lastRepeat = Duration.between(LocalDateTime.MIN,LocalDateTime.now()).toMinutes();
             int learnIndex = 0;
             String createTableSQL = "insert into "

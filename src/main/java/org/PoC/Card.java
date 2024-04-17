@@ -63,4 +63,5 @@ public class Card {
     public void setLearnIndex(int learnIndex) {
         this.learnIndex = learnIndex;
     }
+
 }
