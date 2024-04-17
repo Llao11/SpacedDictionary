@@ -54,4 +54,16 @@ class ViewGUI {
     public void newCardWindow(String dictionaryName){
         NewCardWindow newCardWindow = new NewCardWindow(controller,dictionaryName);
     }
+
+    /**
+     * creates new window to repeat cards
+     */
+    public void repeatCardWindow(Controller controller, String dictionaryName, ArrayList<Card> cards){
+        RepeatWindow repeatWindow = new RepeatWindow(controller,dictionaryName,cards);
+    }
+
+
+    public void informationWindow(String message){
+        InfoWindow infoWindow = new InfoWindow(message);
+    }
 }

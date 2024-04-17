@@ -29,7 +29,11 @@ public class Controller {
      */
     public void repeatDictionary(String dictionary){
         ArrayList<Card> cards = library.getDictionary(dictionary);
-
+        if (cards.isEmpty()){
+            viewGUI.informationWindow("The dictionary is empty");
+        }else{
+            viewGUI.repeatCardWindow(this,dictionary,cards);
+        }
     }
 
 
