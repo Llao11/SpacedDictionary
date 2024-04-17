@@ -26,7 +26,7 @@ class MainWindow extends JFrame implements ActionListener {
      * @param dictionaries - ArrayList<String> with dictionary names
      */
     public void createMainWindow(ArrayList<String> dictionaries, int width, int height){
-        this.setTitle("SpacedDict");
+        this.setTitle("SpacedDictionary");
         this.setSize(width,height);
         editDictionariesList = new ArrayList<>();
         this.setLayout(null);
