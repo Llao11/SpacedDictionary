@@ -66,4 +66,8 @@ class ViewGUI {
     public void informationWindow(String message){
         InfoWindow infoWindow = new InfoWindow(message);
     }
+
+    public void editDictionaryWindow(ArrayList<Card> cards) {
+        EditDictionaryWindow editDictionaryWindow = new EditDictionaryWindow(controller,cards);
+    }
 }

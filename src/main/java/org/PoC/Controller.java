@@ -88,10 +88,10 @@ public class Controller {
         //TODO: add logic to update values of the card based on remembered value: bad=1, middle=2, good=3
     }
 
-
-
-
-
+    public void createEditDictionaryWindow(String dictionary) {
+        ArrayList<Card> cards = library.getDictionaryCards(dictionary);
+        viewGUI.editDictionaryWindow(cards);
+    }
 
 
 

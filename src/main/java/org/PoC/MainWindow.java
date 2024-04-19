@@ -141,6 +141,8 @@ class MainWindow extends JFrame implements ActionListener {
             }else if (string.equals("Add card") && editDictionariesList.size()==1) {
                 String dictionaryName = editDictionariesList.get(0);
                 controller.addCardWindow(dictionaryName);
+            }else if (string.equals("Edit cards") && editDictionariesList.size()==1) {
+                controller.createEditDictionaryWindow(editDictionariesList.get(0));
             }else if (string.equals("Remove dictionary")) {
                 for (String dictionary : editDictionariesList) {
                     controller.removeDictionary(dictionary);
