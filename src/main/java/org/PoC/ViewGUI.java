@@ -6,6 +6,7 @@ import java.util.ArrayList;
 class ViewGUI {
     private final Controller controller;
     private MainWindow mainWindow;
+    EditDictionaryWindow editDictionaryWindow;
     private NewDictionaryWindow newDictionaryWindow;
     private final int mainWindowWidth = 800;
     private final int mainWindowHeight = 600;
@@ -30,6 +31,12 @@ class ViewGUI {
      */
     public void refreshMainWindow(ArrayList<String> dictionaries){
         mainWindow.showDictionaries(dictionaries);
+    }
+
+    public void refreshDictionaryEditWindow(){
+        if (editDictionaryWindow!=null){
+            editDictionaryWindow.refreshTable();
+        }
     }
 
     public void enterEditMode(){
@@ -67,7 +74,7 @@ class ViewGUI {
         InfoWindow infoWindow = new InfoWindow(message);
     }
 
-    public void editDictionaryWindow(ArrayList<Card> cards) {
-        EditDictionaryWindow editDictionaryWindow = new EditDictionaryWindow(controller,cards);
+    public void editDictionaryWindow(ArrayList<Card> cards,String dictionary) {
+        editDictionaryWindow = new EditDictionaryWindow(controller,cards,dictionary);
     }
 }

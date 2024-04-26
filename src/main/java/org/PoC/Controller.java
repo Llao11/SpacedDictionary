@@ -50,17 +50,21 @@ public class Controller {
      */
     public void newDictionary(String dictionaryName){
         library.newDictionary(dictionaryName);
-        refreshDictionary();
+        refreshMainWindow();
     }
 
     public void removeDictionary(String dictionaryName){
         library.removeDictionary(dictionaryName);
-        refreshDictionary();
+        refreshMainWindow();
     }
 
-    public void refreshDictionary(){
+    public void refreshMainWindow(){
         ArrayList<String> dictionaries = library.getDictionaries();
         viewGUI.refreshMainWindow(dictionaries);
+    }
+
+    public void refreshDictionaryEditWindow(){
+        viewGUI.refreshDictionaryEditWindow();
     }
 
     public void addCardWindow(String dictionaryName){
@@ -90,7 +94,7 @@ public class Controller {
 
     public void createEditDictionaryWindow(String dictionary) {
         ArrayList<Card> cards = library.getDictionaryCards(dictionary);
-        viewGUI.editDictionaryWindow(cards);
+        viewGUI.editDictionaryWindow(cards,dictionary);
     }
 
 

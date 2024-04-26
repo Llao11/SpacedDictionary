@@ -78,10 +78,9 @@ class MainWindow extends JFrame implements ActionListener {
     public void showEditControlPanel(){
         leftPanel.setVisible(false);
         leftPanel.removeAll();
-        leftPanel.setBounds(new Rectangle(15,10,190,250));
+        leftPanel.setBounds(new Rectangle(15,10,190,200));
         leftPanel2 = new JPanel();
         leftPanel2.setLayout(new GridLayout(0,1,10,10));
-        addButton("Add card",leftPanel2);
         addButton("Edit cards",leftPanel2);
         addButton("Rename dictionary",leftPanel2);
         addButton("Remove dictionary",leftPanel2);
@@ -134,13 +133,10 @@ class MainWindow extends JFrame implements ActionListener {
             if (string.equals("Back")) {
                 editDictionariesList.clear();
                 controller.exitEditMode();
-                controller.refreshDictionary();
+                controller.refreshMainWindow();
                 System.out.println("Exit edit mode!");
             }else if (currentDictionariesList.contains(string)) {
                 chooseButton(actionEvent);
-            }else if (string.equals("Add card") && editDictionariesList.size()==1) {
-                String dictionaryName = editDictionariesList.get(0);
-                controller.addCardWindow(dictionaryName);
             }else if (string.equals("Edit cards") && editDictionariesList.size()==1) {
                 controller.createEditDictionaryWindow(editDictionariesList.get(0));
             }else if (string.equals("Remove dictionary")) {
@@ -186,9 +182,6 @@ class MainWindow extends JFrame implements ActionListener {
         leftPanel.setBounds(new Rectangle(15,10,190,250));
         leftPanel2 = new JPanel();
         leftPanel2.setLayout(new GridLayout(0,1,10,10));
-        JButton button1 = addButton("Add card",leftPanel2);
-        button1.setBackground(Color.WHITE);
-        button1.setForeground(Color.lightGray);
         JButton button2 = addButton("Edit cards",leftPanel2);
         button2.setBackground(Color.WHITE);
         button2.setForeground(Color.lightGray);

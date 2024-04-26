@@ -77,6 +77,7 @@ class NewCardWindow extends JFrame implements ActionListener {
             controller.addCard(dictionaryName,newWord1,newWord2);
             this.setVisible(false);
             this.dispose();
+            controller.refreshDictionaryEditWindow();
         }
     }
 
