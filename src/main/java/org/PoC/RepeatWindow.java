@@ -16,6 +16,10 @@ class RepeatWindow extends JFrame implements ActionListener {
     private final JPanel wordsPanel;
     private Card currentCard;
     private static final Font wordFont = new Font("Arial", Font.PLAIN, 32);
+    private final String buttonBadText = "<html><center>"  + "<font size=\"5\">Bad </font> <br>"+"show answer" + "</center></html>";
+    private final String buttonMiddleText ="<html><center>"+ "<font size=\"5\"> Middle</font><br>"+"show answer" + "</center></html>";
+    private final String buttonGoodText = "<html><center>" + "<font size=\"5\">Good </font><br>"+"next word" + "</center></html>";
+    private final String buttonNextText = "<html><center>" + "<font size=\"5\">Next </font>" + "</center></html>";
 
 
     /**
@@ -34,7 +38,7 @@ class RepeatWindow extends JFrame implements ActionListener {
         this.add(mainRepeatPanel);
         mainRepeatPanel.add(wordsPanel);
         mainRepeatPanel.add(controlPanel);
-        this.setSize(400,150);
+        this.setSize(500,150);
         this.setVisible(true);
     }
 
@@ -57,9 +61,9 @@ class RepeatWindow extends JFrame implements ActionListener {
         wordsPanel.setVisible(true);
 
         controlPanel.removeAll();
-        JButton button1 = new JButton("Bad");
-        JButton button2 = new JButton("Middle");
-        JButton button3 = new JButton("Good");
+        JButton button1 = new JButton(buttonBadText);
+        JButton button2 = new JButton(buttonMiddleText);
+        JButton button3 = new JButton(buttonGoodText);
         button1.setBackground(Color.red);
         button2.setBackground(Color.yellow);
         button3.setBackground(Color.green);
@@ -86,7 +90,7 @@ class RepeatWindow extends JFrame implements ActionListener {
 
         controlPanel.setVisible(false);
         controlPanel.removeAll();
-        JButton button = new JButton("Next");
+        JButton button = new JButton(buttonNextText);
         button.setBackground(Color.cyan);
         button.addActionListener(this);
         controlPanel.add(button);
@@ -105,22 +109,22 @@ class RepeatWindow extends JFrame implements ActionListener {
         String s = actionEvent.getActionCommand();
         int remembered;
         switch (s) {
-            case "Bad":
+            case buttonBadText:
                 remembered = 1;
                 controller.updateCard(currentCard, remembered);
                 showCardAnswer(currentCard);
                 break;
-            case "Middle":
+            case buttonMiddleText:
                 remembered = 2;
                 controller.updateCard(currentCard, remembered);
                 showCardAnswer(currentCard);
                 break;
-            case "Good":
+            case buttonGoodText:
                 remembered = 3;
                 controller.updateCard(currentCard, remembered);
                 repeatLogic();
                 break;
-            case "Next":
+            case buttonNextText:
                 repeatLogic();
                 break;
         }

@@ -119,11 +119,29 @@ public class Library {
             long lastRepeat = Duration.between(LocalDateTime.MIN,LocalDateTime.now()).toMinutes();
             int learnIndex = 0;
             String createTableSQL = "insert into "
-                    + dictionaryName + " values(' "
-                    + word1 + "' , ' "
-                    + word2 + "' , ' "
-                    + lastRepeat + "' , ' "
+                    + dictionaryName + " values('"
+                    + word1 + "','"
+                    + word2 + "','"
+                    + lastRepeat + "',' "
                     + learnIndex +"');";
+            PreparedStatement statement = conn.prepareStatement(createTableSQL);
+            System.out.println(createTableSQL);
+            statement.executeUpdate();
+            System.out.println("Card added to the "+dictionaryName);
+            conn.close();
+        } catch (ClassNotFoundException | SQLException e) {
+            System.err.println("Error creating table: " + e.getMessage());
+        }
+    }
+
+    public void updateCardLearnIndex(String dictionaryName,String word1, int newLearnIndex ) {
+        try {
+            Class.forName("org.sqlite.JDBC");
+            Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+            String createTableSQL = "UPDATE "
+                    + dictionaryName + " SET learnIndex = "
+                    + newLearnIndex + " WHERE word1='"
+                    + word1 + "';";
             PreparedStatement statement = conn.prepareStatement(createTableSQL);
             System.out.println(createTableSQL);
             statement.executeUpdate();
