@@ -30,8 +30,10 @@ public class Library {
             while (resultSet.next()) {
                 String word1 = resultSet.getString("Word1");
                 String word2 = resultSet.getString("Word2");
-                System.out.println(word1 + " - " + word2);
-                cards.add(new Card(word1,word2));
+                int lastRepeat = resultSet.getInt("lastRepeat");
+                int learnIndex = resultSet.getInt("learnIndex");
+                System.out.println(word1 + " - " + word2 + " - " + lastRepeat + " - " + learnIndex);
+                cards.add(new Card(word1,word2,lastRepeat,learnIndex));
             }
             return cards;
         } catch (SQLException e) {
@@ -111,7 +113,7 @@ public class Library {
      * @param word2 - word 2
      * @param dictionaryName - dictionary name
      */
-    public void addCard(String word1, String word2, String dictionaryName) {
+    public void addNewCard(String word1, String word2, String dictionaryName) {
         try {
             Class.forName("org.sqlite.JDBC");
             Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
@@ -134,6 +136,12 @@ public class Library {
         }
     }
 
+    /**
+     *  Update learn index for Card in Dictionary name
+     * @param dictionaryName - dictionary name
+     * @param word1 - first word
+     * @param newLearnIndex - new learn index
+     */
     public void updateCardLearnIndex(String dictionaryName,String word1, int newLearnIndex ) {
         try {
             Class.forName("org.sqlite.JDBC");

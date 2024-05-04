@@ -102,26 +102,24 @@ class RepeatWindow extends JFrame implements ActionListener {
      * Listner method that sends entered name to the controller
      * @param actionEvent - event variable
      */
-
-    // TODO Add changing in word memorization for card
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         String s = actionEvent.getActionCommand();
-        int remembered;
+        int learnDelta;
         switch (s) {
             case buttonBadText:
-                remembered = 1;
-                controller.updateCard(currentCard, remembered);
+                learnDelta = 1;
+                controller.updateCard(dictionaryName,currentCard,learnDelta );
                 showCardAnswer(currentCard);
                 break;
             case buttonMiddleText:
-                remembered = 2;
-                controller.updateCard(currentCard, remembered);
+                learnDelta = 2;
+                controller.updateCard(dictionaryName,currentCard, learnDelta);
                 showCardAnswer(currentCard);
                 break;
             case buttonGoodText:
-                remembered = 3;
-                controller.updateCard(currentCard, remembered);
+                learnDelta = 3;
+                controller.updateCard(dictionaryName,currentCard, learnDelta);
                 repeatLogic();
                 break;
             case buttonNextText:

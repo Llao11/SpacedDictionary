@@ -72,7 +72,7 @@ public class Controller {
     }
 
     public void addCard(String dictionaryName,String word1, String word2){
-        library.addCard(word1,word2,dictionaryName);
+        library.addNewCard(word1,word2,dictionaryName);
     }
 
     public void enterEditMode(){
@@ -88,8 +88,12 @@ public class Controller {
         return isEditMode;
     }
 
-    public void updateCard(Card card,int remembered ){
+    public void updateCard(String dictionaryName,Card card,int learnDelta ){
         //TODO: add logic to update values of the card based on remembered value: bad=1, middle=2, good=3
+        int newLearnIndex = card.getLearnIndex()+learnDelta;
+        if (newLearnIndex > 10)
+            newLearnIndex = 10;
+        library.updateCardLearnIndex(dictionaryName,card.getWord1(),newLearnIndex);
     }
 
     public void createEditDictionaryWindow(String dictionary) {
@@ -118,7 +122,7 @@ public class Controller {
             if (action1 == 1){              // Add card
                 String word1 = viewConsole.enterWord("Please enter a first word: ");
                 String word2 = viewConsole.enterWord("Please enter a second word: ");
-                library.addCard(word1, word2, dictionaryName);
+                library.addNewCard(word1, word2, dictionaryName);
             } else if (action1 == 2) {       // Remove card
 
             } else if (action1 == 3) {       // Rename dictionary
