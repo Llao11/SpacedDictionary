@@ -7,7 +7,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Card {
+public class Card implements Comparable{
 
     private String word1;
     private String word2;
@@ -72,4 +72,19 @@ public class Card {
         this.learnIndex = learnIndex;
     }
 
+    @Override
+    public int compareTo(Object object) {
+        if (object instanceof Card) {
+            Card card1 = (Card) object;
+            if (card1.getLastRepeat() < this.lastRepeat) {
+                return 1;
+            } else if (card1.getLastRepeat() > this.lastRepeat) {
+                return -1;
+            } else {
+                return 0;
+            }
+        }else {
+            throw new RuntimeException("Object is not a Card");
+        }
+    }
 }

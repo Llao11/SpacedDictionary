@@ -45,9 +45,8 @@ class RepeatWindow extends JFrame implements ActionListener {
 
     //TODO: replace with spaced repetition logic
     private void repeatLogic(){
-        Random random = new Random();
-        int randomInt = random.nextInt(cards.size());
-        showCardQuestion(cards.get(randomInt));
+        this.cards = controller.getDictionaryCards(dictionaryName);
+        showCardQuestion(cards.get(0));
     }
 
     private void showCardQuestion(Card card){
@@ -109,17 +108,17 @@ class RepeatWindow extends JFrame implements ActionListener {
         switch (s) {
             case buttonBadText:
                 learnDelta = 1;
-                controller.updateCard(dictionaryName,currentCard,learnDelta );
+                controller.updateCard(dictionaryName,currentCard,learnDelta,true );
                 showCardAnswer(currentCard);
                 break;
             case buttonMiddleText:
                 learnDelta = 2;
-                controller.updateCard(dictionaryName,currentCard, learnDelta);
+                controller.updateCard(dictionaryName,currentCard, learnDelta,true);
                 showCardAnswer(currentCard);
                 break;
             case buttonGoodText:
                 learnDelta = 3;
-                controller.updateCard(dictionaryName,currentCard, learnDelta);
+                controller.updateCard(dictionaryName,currentCard, learnDelta,true);
                 repeatLogic();
                 break;
             case buttonNextText:

@@ -118,6 +118,8 @@ public class Library {
             Class.forName("org.sqlite.JDBC");
             Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
             // lastRepeat: number of minutes from minimum time to current time
+
+            // TODO: Correct the last repeat variable to calculate and update it
             long lastRepeat = Duration.between(LocalDateTime.MIN,LocalDateTime.now()).toMinutes();
             int learnIndex = 0;
             String createTableSQL = "insert into "
@@ -137,7 +139,7 @@ public class Library {
     }
 
     /**
-     *  Update learn index for Card in Dictionary name
+     *  Update last repeat for Card in Dictionary name
      * @param dictionaryName - dictionary name
      * @param word1 - first word
      * @param newLearnIndex - new learn index
@@ -149,6 +151,57 @@ public class Library {
             String createTableSQL = "UPDATE "
                     + dictionaryName + " SET learnIndex = "
                     + newLearnIndex + " WHERE word1='"
+                    + word1 + "';";
+            PreparedStatement statement = conn.prepareStatement(createTableSQL);
+            System.out.println(createTableSQL);
+            statement.executeUpdate();
+            System.out.println("Card added to the "+dictionaryName);
+            conn.close();
+        } catch (ClassNotFoundException | SQLException e) {
+            System.err.println("Error creating table: " + e.getMessage());
+        }
+    }
+
+    /**
+     *  Update last repeat for Card in Dictionary name
+     * @param dictionaryName - dictionary name
+     * @param word1 - first word
+     * @param newLearnIndex - new learn index
+     */
+    public void updateCardAttributes(String dictionaryName,String word1, String newWord1,String newWord2,long newLastRepeat ,int newLearnIndex ) {
+        try {
+            Class.forName("org.sqlite.JDBC");
+            Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+            String createTableSQL = "UPDATE " + dictionaryName
+                    + " SET word1 = '" + newWord1 +"',"
+                    + " word2 = '" + newWord2 +"',"
+                    + " lastRepeat = " + newLastRepeat +","
+                    + " learnIndex = " + newLearnIndex
+                    + " WHERE word1='" + word1 + "';";
+            System.out.println(createTableSQL);
+            PreparedStatement statement = conn.prepareStatement(createTableSQL);
+            statement.executeUpdate();
+            System.out.println("Card added to the "+dictionaryName);
+            conn.close();
+        } catch (ClassNotFoundException | SQLException e) {
+            System.err.println("Error creating table: " + e.getMessage());
+        }
+    }
+
+
+    /**
+     *  Update learn index for Card in Dictionary name
+     * @param dictionaryName - dictionary name
+     * @param word1 - first word
+     * @param newLastRepeat - new last repeat
+     */
+    public void updateCardLastRepeat(String dictionaryName,String word1, int newLastRepeat ) {
+        try {
+            Class.forName("org.sqlite.JDBC");
+            Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+            String createTableSQL = "UPDATE "
+                    + dictionaryName + " SET lastRepeat = "
+                    + newLastRepeat + " WHERE word1='"
                     + word1 + "';";
             PreparedStatement statement = conn.prepareStatement(createTableSQL);
             System.out.println(createTableSQL);

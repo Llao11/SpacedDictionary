@@ -1,5 +1,8 @@
 package org.PoC;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 
 public class Controller {
@@ -8,6 +11,7 @@ public class Controller {
     private final ViewGUI viewGUI;
     private final Library library;
     private boolean isEditMode;
+    private final int maxLearnIndex=10;
 
     public Controller() {
         viewConsole = new ViewConsole();
@@ -25,7 +29,7 @@ public class Controller {
     }
 
     /**
-     * Start new GUI JFrame as main window
+     * Start new GUI JFrame for repeat window
      */
     public void repeatDictionary(String dictionary){
         ArrayList<Card> cards = library.getDictionaryCards(dictionary);
@@ -34,6 +38,15 @@ public class Controller {
         }else{
             viewGUI.repeatCardWindow(this,dictionary,cards);
         }
+    }
+
+    /**
+     * Start new GUI JFrame for repeat window
+     */
+    public ArrayList<Card> getDictionaryCards(String dictionary){
+        ArrayList<Card>  cards = library.getDictionaryCards(dictionary);
+        cards.sort(Card::compareTo);
+        return cards;
     }
 
 
@@ -88,12 +101,19 @@ public class Controller {
         return isEditMode;
     }
 
-    public void updateCard(String dictionaryName,Card card,int learnDelta ){
+    public void updateCard(String dictionaryName,Card card,int learnDelta, boolean updateLastRepeat ){
         //TODO: add logic to update values of the card based on remembered value: bad=1, middle=2, good=3
         int newLearnIndex = card.getLearnIndex()+learnDelta;
-        if (newLearnIndex > 10)
-            newLearnIndex = 10;
-        library.updateCardLearnIndex(dictionaryName,card.getWord1(),newLearnIndex);
+        if (newLearnIndex > maxLearnIndex)
+            newLearnIndex = maxLearnIndex;
+        if (updateLastRepeat) {
+            Instant instant = LocalDateTime.now().toInstant(ZoneOffset.UTC);
+            long currentTimestamp = instant.getEpochSecond();
+            System.out.println(currentTimestamp);
+            library.updateCardAttributes(dictionaryName, card.getWord1(),card.getWord1(),card.getWord2(), currentTimestamp,newLearnIndex);
+        }else {
+            library.updateCardLearnIndex(dictionaryName, card.getWord1(), newLearnIndex);
+        }
     }
 
     public void createEditDictionaryWindow(String dictionary) {
