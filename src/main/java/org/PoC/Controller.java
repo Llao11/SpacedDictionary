@@ -41,6 +41,8 @@ public class Controller {
 
     // TODO: add settings to choose the DB file - choosing logic is in testSwing class
 
+    //TODO fix appearance of the images from resources in JAR file
+
     /**
      * Start new GUI JFrame for repeat window
      */
