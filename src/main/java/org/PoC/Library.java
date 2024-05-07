@@ -9,9 +9,33 @@ import java.util.Comparator;
 public class Library {
 
     private Controller controller;
-    String dbPath = "src/main/resources/SQLite/dictionaries.db";
+    private Connection conn;
+    private String dbPath = "src/main/resources/SQLite";
+    private String dbName = "dictionaries.db";
 
     public Library( ){
+        connectToDB();
+    }
+
+    public Library(String dbPath){
+        this.dbPath = dbPath;
+        connectToDB();
+    }
+
+    public void connectToDB(){
+        try {
+            this.conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath+"/"+dbName);
+        } catch (SQLException e) {
+            System.out.println(" No connection to DB");
+        }
+    }
+
+    public void closeDB(){
+        try {
+        if (conn!=null)  conn.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -22,7 +46,6 @@ public class Library {
     public ArrayList<Card> getDictionaryCards(String dictionaryName) {
         ArrayList<Card> cards = new ArrayList<>();
         try {
-            Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
             Statement statement = conn.createStatement();
             String query = "SELECT * FROM " + dictionaryName +';';
             System.out.println(query);
@@ -48,20 +71,19 @@ public class Library {
      */
     public void newDictionary(String dictionaryName) {
         try {
-            Class.forName("org.sqlite.JDBC");
-            Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
             String createTableSQL = "CREATE TABLE IF NOT EXISTS " + dictionaryName
                     + "(word1 TEXT NOT NULL,"
                     + "word2 TEXT NOT NULL,"
                     +"lastRepeat INT NOT NULL,"
                     +"learnIndex INT NOT NULL"
                     +");";
-            PreparedStatement statement = conn.prepareStatement(createTableSQL);
             System.out.println(createTableSQL);
+            if (conn==null)
+                System.out.println("Conn is null");
+            PreparedStatement statement = conn.prepareStatement(createTableSQL);
             statement.executeUpdate();
             System.out.println("Dictionary"+dictionaryName+" created successfully!");
-            conn.close();
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             System.err.println("Error creating table: " + e.getMessage());
         }
     }
@@ -72,7 +94,6 @@ public class Library {
     public ArrayList<String> getDictionaries(){
         ArrayList<String> dictionaries = new ArrayList<>();
         try {
-            Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
             Statement statement = conn.createStatement();
             String query = "SELECT name FROM sqlite_master WHERE type='table'";
             ResultSet resultSet = statement.executeQuery(query);
@@ -98,7 +119,6 @@ public class Library {
      */
     public void removeDictionary(String tableName){
         try {
-            Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
             Statement statement = conn.createStatement();
             String query = "DROP TABLE " + tableName + ";";
             statement.executeUpdate(query);
@@ -115,8 +135,6 @@ public class Library {
      */
     public void addNewCard(String word1, String word2, String dictionaryName) {
         try {
-            Class.forName("org.sqlite.JDBC");
-            Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
             // lastRepeat: number of minutes from minimum time to current time
 
             // TODO: Correct the last repeat variable to calculate and update it
@@ -132,8 +150,7 @@ public class Library {
             System.out.println(createTableSQL);
             statement.executeUpdate();
             System.out.println("Card added to the "+dictionaryName);
-            conn.close();
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch ( SQLException e) {
             System.err.println("Error creating table: " + e.getMessage());
         }
     }
@@ -146,8 +163,6 @@ public class Library {
      */
     public void updateCardLearnIndex(String dictionaryName,String word1, int newLearnIndex ) {
         try {
-            Class.forName("org.sqlite.JDBC");
-            Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
             String createTableSQL = "UPDATE "
                     + dictionaryName + " SET learnIndex = "
                     + newLearnIndex + " WHERE word1='"
@@ -156,8 +171,7 @@ public class Library {
             System.out.println(createTableSQL);
             statement.executeUpdate();
             System.out.println("Card added to the "+dictionaryName);
-            conn.close();
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch ( SQLException e) {
             System.err.println("Error creating table: " + e.getMessage());
         }
     }
@@ -170,8 +184,6 @@ public class Library {
      */
     public void updateCardAttributes(String dictionaryName,String word1, String newWord1,String newWord2,long newLastRepeat ,int newLearnIndex ) {
         try {
-            Class.forName("org.sqlite.JDBC");
-            Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
             String createTableSQL = "UPDATE " + dictionaryName
                     + " SET word1 = '" + newWord1 +"',"
                     + " word2 = '" + newWord2 +"',"
@@ -182,8 +194,7 @@ public class Library {
             PreparedStatement statement = conn.prepareStatement(createTableSQL);
             statement.executeUpdate();
             System.out.println("Card added to the "+dictionaryName);
-            conn.close();
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             System.err.println("Error creating table: " + e.getMessage());
         }
     }
@@ -197,8 +208,6 @@ public class Library {
      */
     public void updateCardLastRepeat(String dictionaryName,String word1, int newLastRepeat ) {
         try {
-            Class.forName("org.sqlite.JDBC");
-            Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
             String createTableSQL = "UPDATE "
                     + dictionaryName + " SET lastRepeat = "
                     + newLastRepeat + " WHERE word1='"
@@ -207,8 +216,7 @@ public class Library {
             System.out.println(createTableSQL);
             statement.executeUpdate();
             System.out.println("Card added to the "+dictionaryName);
-            conn.close();
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch ( SQLException e) {
             System.err.println("Error creating table: " + e.getMessage());
         }
     }
@@ -223,5 +231,15 @@ public class Library {
         }else {
             getDictionaries().forEach(System.out::println);
         }
+    }
+
+
+
+    public String getDbPath(){
+        return dbPath;
+    }
+
+    public void setDbPath(String path){
+        this.dbPath = path;
     }
 }

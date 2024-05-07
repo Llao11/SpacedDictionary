@@ -21,7 +21,7 @@ class ViewGUI {
      */
     public void openMainWindow(ArrayList<String> dictionaries){
         mainWindow = new MainWindow(controller);
-        mainWindow.createMainWindow(dictionaries, mainWindowWidth,mainWindowHeight);
+        mainWindow.createMainWindow(dictionaries, mainWindowWidth, mainWindowHeight);
     }
 
     /**

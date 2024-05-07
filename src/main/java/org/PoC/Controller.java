@@ -1,5 +1,8 @@
 package org.PoC;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -9,7 +12,7 @@ public class Controller {
 
     private final ViewConsole viewConsole;
     private final ViewGUI viewGUI;
-    private final Library library;
+    private Library library;
     private boolean isEditMode;
     private final int maxLearnIndex=10;
 
@@ -24,8 +27,20 @@ public class Controller {
      * Start new GUI JFrame as main window
      */
     public void openMainWindow(){
-        ArrayList<String> dictionaries =library.getDictionaries();
-        viewGUI.openMainWindow(dictionaries);
+        Path path = Paths.get(library.getDbPath());
+        if(Files.exists(path)) {
+            System.out.println("Path to DB exists");
+            ArrayList<String> dictionaries =library.getDictionaries();
+            viewGUI.openMainWindow(dictionaries);
+        } else if(Files.notExists(path)) {
+            System.out.println("Path to DB does not exist create new one in current folder");
+            library = new Library("./");
+            ArrayList<String> dictionaries =library.getDictionaries();
+            viewGUI.openMainWindow(dictionaries);
+        } else {
+            System.out.println("Path  to DB  cannot be verified");
+            viewGUI.openMainWindow(null);
+        }
     }
 
     /**
@@ -121,6 +136,9 @@ public class Controller {
         viewGUI.editDictionaryWindow(cards,dictionary);
     }
 
+    public void closeDB(){
+        library.closeDB();
+    }
 
 
     /**

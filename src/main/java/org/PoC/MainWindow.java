@@ -34,6 +34,7 @@ class MainWindow extends JFrame implements ActionListener {
         {public void windowClosing(WindowEvent e)
         {
             dispose();
+            controller.closeDB();
             System.exit(0);
         }
         });
@@ -41,7 +42,9 @@ class MainWindow extends JFrame implements ActionListener {
         leftPanel = new JPanel();
         leftPanel.setLayout(new CardLayout());
         showMainControlPanel();
-        showDictionaries(dictionaries);
+        if (dictionaries!=null) {
+            showDictionaries(dictionaries);
+        }
         this.add(leftPanel);
         this.setVisible(true);
     }
@@ -157,6 +160,7 @@ class MainWindow extends JFrame implements ActionListener {
                 System.out.println("\nRepeat dictionary: " + string);
             }else if (string.equals("Exit")) {
                 dispose();
+                controller.closeDB();
                 System.exit(0);
             }
         }
