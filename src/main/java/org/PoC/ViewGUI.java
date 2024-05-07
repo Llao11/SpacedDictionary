@@ -1,6 +1,5 @@
 package org.PoC;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 class ViewGUI {
@@ -8,6 +7,7 @@ class ViewGUI {
     private MainWindow mainWindow;
     EditDictionaryWindow editDictionaryWindow;
     private NewDictionaryWindow newDictionaryWindow;
+    private RenameDictionaryWindow newRenameDictionaryWindow;
     private final int mainWindowWidth = 800;
     private final int mainWindowHeight = 600;
 
@@ -53,6 +53,11 @@ class ViewGUI {
     public void newDictionaryWindow(){
         newDictionaryWindow = new NewDictionaryWindow(controller);
         newDictionaryWindow.createNewDictionaryWindow();
+    }
+
+    public void newRenameDictionaryWindow(String newDictionaryName){
+        newRenameDictionaryWindow = new RenameDictionaryWindow(controller);
+        newRenameDictionaryWindow.createRenameDictionaryWindow(newDictionaryName);
     }
 
     /**

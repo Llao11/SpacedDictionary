@@ -1,5 +1,8 @@
 package org.PoC;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -35,6 +38,24 @@ public class Library {
         if (conn!=null)  conn.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Method to check if default path to database exists
+     * @return true - if path exists
+     */
+    public boolean isDBFileExists(){
+        Path path = Paths.get(getDbPath());
+        if(Files.exists(path)) {
+            System.out.println("Path "+dbPath+" to DB exists");
+            return true;
+        } else if(Files.notExists(path)) {
+            System.out.println("Path "+dbPath+" to DB does not exist");
+            return false;
+        } else {
+            System.out.println("Path "+dbPath+"  to DB  cannot be verified");
+            throw new RuntimeException();
         }
     }
 
@@ -78,13 +99,30 @@ public class Library {
                     +"learnIndex INT NOT NULL"
                     +");";
             System.out.println(createTableSQL);
-            if (conn==null)
-                System.out.println("Conn is null");
             PreparedStatement statement = conn.prepareStatement(createTableSQL);
             statement.executeUpdate();
             System.out.println("Dictionary"+dictionaryName+" created successfully!");
         } catch (SQLException e) {
             System.err.println("Error creating table: " + e.getMessage());
+        }
+    }
+
+
+    /**
+     * Rename table (dictionary) in database
+     * @param dictionaryName - old dictionary name
+     * @param newTableName - new dictionary name
+     */
+    public void renameDictionary(String dictionaryName, String newTableName) {
+        try {
+            String createTableSQL = "ALTER TABLE " + dictionaryName
+                    + " RENAME TO "+ newTableName +";";
+            System.out.println(createTableSQL);
+            PreparedStatement statement = conn.prepareStatement(createTableSQL);
+            statement.executeUpdate();
+            System.out.println("Dictionary"+dictionaryName+" changed successfully to "+newTableName);
+        } catch (SQLException e) {
+            System.err.println("Error renaming the table: " + e.getMessage());
         }
     }
 

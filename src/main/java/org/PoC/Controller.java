@@ -27,21 +27,19 @@ public class Controller {
      * Start new GUI JFrame as main window
      */
     public void openMainWindow(){
-        Path path = Paths.get(library.getDbPath());
-        if(Files.exists(path)) {
+        if(library.isDBFileExists()) {
             System.out.println("Path to DB exists");
             ArrayList<String> dictionaries =library.getDictionaries();
             viewGUI.openMainWindow(dictionaries);
-        } else if(Files.notExists(path)) {
+        } else {
             System.out.println("Path to DB does not exist create new one in current folder");
             library = new Library("./");
             ArrayList<String> dictionaries =library.getDictionaries();
             viewGUI.openMainWindow(dictionaries);
-        } else {
-            System.out.println("Path  to DB  cannot be verified");
-            viewGUI.openMainWindow(null);
         }
     }
+
+    // TODO: add settings to choose the DB file - choosing logic is in testSwing class
 
     /**
      * Start new GUI JFrame for repeat window
@@ -83,6 +81,15 @@ public class Controller {
 
     public void removeDictionary(String dictionaryName){
         library.removeDictionary(dictionaryName);
+        refreshMainWindow();
+    }
+
+    public void renameDictionaryWindow(String dictionaryName){
+        viewGUI.newRenameDictionaryWindow(dictionaryName);
+    }
+
+    public void renameDictionary(String oldDictionaryName,String newDictionaryName){
+        library.renameDictionary(oldDictionaryName,newDictionaryName);
         refreshMainWindow();
     }
 

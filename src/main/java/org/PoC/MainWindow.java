@@ -68,7 +68,7 @@ class MainWindow extends JFrame implements ActionListener {
         leftPanel1 = new JPanel();
         leftPanel1.setLayout(new GridLayout(0,1,10,10));
         addButton("New dictionary",leftPanel1);
-        addButton("Edit dictionary",leftPanel1);
+        addButton("Edit mode",leftPanel1);
         addButton("Settings",leftPanel1);
         addButton("Exit",leftPanel1);
         leftPanel.add(leftPanel1);
@@ -133,26 +133,29 @@ class MainWindow extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent actionEvent) {
         String string = actionEvent.getActionCommand();
         if (controller.isEditMode()){                   // EDIT CONTROL PANEL
-            if (string.equals("Back")) {
-                editDictionariesList.clear();
-                controller.exitEditMode();
-                controller.refreshMainWindow();
-                System.out.println("Exit edit mode!");
-            }else if (currentDictionariesList.contains(string)) {
+            if (currentDictionariesList.contains(string)) {
                 chooseButton(actionEvent);
             }else if (string.equals("Edit cards") && editDictionariesList.size()==1) {
                 controller.createEditDictionaryWindow(editDictionariesList.get(0));
+            }else if (string.equals("Rename dictionary") && editDictionariesList.size()==1) {
+                controller.renameDictionaryWindow(editDictionariesList.get(0));
+                editDictionariesList.clear();
             }else if (string.equals("Remove dictionary")) {
                 for (String dictionary : editDictionariesList) {
                     controller.removeDictionary(dictionary);
                 }
                 editDictionariesList.clear();
                 showEditControlPanel();
+            }else if (string.equals("Back")) {
+                editDictionariesList.clear();
+                controller.exitEditMode();
+                controller.refreshMainWindow();
+                System.out.println("Exit edit mode!");
             }
         }else {                                         // MAIN CONTROL PANEL
             if (string.equals("New dictionary")) {
                 controller.newDictionaryWindow();
-            } else if (string.equals("Edit dictionary")) {
+            } else if (string.equals("Edit mode")) {
                 controller.enterEditMode();
                 System.out.println("Edit mode!");
             } else if (currentDictionariesList.contains(string)) {
@@ -183,7 +186,7 @@ class MainWindow extends JFrame implements ActionListener {
     private void setInactiveButtons(){
         leftPanel.setVisible(false);
         leftPanel.removeAll();
-        leftPanel.setBounds(new Rectangle(15,10,190,250));
+        leftPanel.setBounds(new Rectangle(15,10,190,200));
         leftPanel2 = new JPanel();
         leftPanel2.setLayout(new GridLayout(0,1,10,10));
         JButton button2 = addButton("Edit cards",leftPanel2);
